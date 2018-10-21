@@ -1,0 +1,6 @@
+{
+  "python.pythonPath": "/Users/vicente/.local/share/virtualenvs/evalua-bk-XoGlYD_u/bin/python",
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": false
+}
