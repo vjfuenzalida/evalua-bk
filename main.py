@@ -4,10 +4,12 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from random import randint
 
 BK_URL = "https://www.evaluabk.com"
 MC_URL = "http://mcexperiencia.cl"
-
+WD_URL = "https://www.mywendysfeedback.com/chl"
+PH_URL = "https://s.pizzahutsurvey.com/chl"
 
 def setup_chrome_driver(options=None):
     if not options:
@@ -66,19 +68,36 @@ class DriverController:
 
 
 class Bot:
-    def __init__(self, url, brand="", button_id="", code_id=""):
+    def __init__(self, url, brand="", button_id="", code_id="", initial_id=""):
         self.url = url
         self.controller = DriverController(self.url)
         self.button_id = button_id
         self.code_id = code_id
         self.brand = brand
+        self.initial_id = initial_id
         self.name = "{} Survey Answerer Bot".format(self.brand).strip()
         print("Initializing {}".format(self.name))
+
+    def fill_initial_input(self):
+        fake_value = randint(950000000000, 999999999999) # idk why it works
+        initial_input = self.controller.find_id(self.initial_id)
+        initial_input.send_keys(fake_value)
+
+    def initial_input_present(self): 
+        try:
+          self.controller.find_id(self.initial_id)
+          return True
+        except:
+          return False
 
     def answer_survey(self, fill_form=True):
         self.controller.navigate()
         button = self.get_form_button()
         while button:
+            if(self.initial_id != ""):
+              input_present = self.initial_input_present()
+              if (input_present):
+                self.fill_initial_input()
             button.click()
             if fill_form:
                 self.fill_form_page()
@@ -115,6 +134,15 @@ class BurgerKingBot(Bot):
         super().__init__(BK_URL, "Burger King", "NextButton", "ValCode")
 
 
+class WendysBot(Bot):
+    def __init__(self):
+        super().__init__(WD_URL, "Wendy's", "NextButton", "ValCode")
+
+class PizzaHutBot(Bot):
+    def __init__(self):
+        super().__init__(PH_URL, "Pizza Hut", "NextButton", "ValCode", "InputCouponNum")
+
+
 class McDonaldsBot(Bot):
     def __init__(self):
         super().__init__(MC_URL, "McDonald's", "movenextbtn")
@@ -149,9 +177,17 @@ class McDonaldsBot(Bot):
         # button = self.get_form_button()
 
 
-bot = BurgerKingBot()
+# bot = BurgerKingBot()
+# bot.answer_survey(fill_form=False)
+# bot.retrieve_code()
+
+bot = PizzaHutBot()
 bot.answer_survey(fill_form=False)
 bot.retrieve_code()
+
+# bot = WendysBot()
+# bot.answer_survey(fill_form=False)
+# bot.retrieve_code()
 
 # bot = McDonaldsBot()
 # bot.answer_survey()
