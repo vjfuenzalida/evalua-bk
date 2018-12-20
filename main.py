@@ -10,6 +10,7 @@ BK_URL = "https://www.evaluabk.com"
 MC_URL = "http://mcexperiencia.cl"
 WD_URL = "https://www.mywendysfeedback.com/chl"
 PH_URL = "https://s.pizzahutsurvey.com/chl"
+DD_URL = "https://www.talktodunkin.com/chl"
 
 def setup_chrome_driver(options=None):
     if not options:
@@ -143,6 +144,11 @@ class PizzaHutBot(Bot):
         super().__init__(PH_URL, "Pizza Hut", "NextButton", "ValCode", "InputCouponNum")
 
 
+class DunkinDonutsBot(Bot):
+    def __init__(self):
+        super().__init__(DD_URL, "Dunkin Donuts", "NextButton", "ValCode")
+
+
 class McDonaldsBot(Bot):
     def __init__(self):
         super().__init__(MC_URL, "McDonald's", "movenextbtn")
@@ -181,7 +187,11 @@ class McDonaldsBot(Bot):
 # bot.answer_survey(fill_form=False)
 # bot.retrieve_code()
 
-bot = PizzaHutBot()
+# bot = PizzaHutBot()
+# bot.answer_survey(fill_form=False)
+# bot.retrieve_code()
+
+bot = DunkinDonutsBot()
 bot.answer_survey(fill_form=False)
 bot.retrieve_code()
 
