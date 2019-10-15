@@ -19,6 +19,12 @@ pip install pipenv
 pipenv install
 ```
 
+* Activate Environment
+```
+pipenv shell
+```
+
+
 * Run the survey answerer
 ```
 python main.py

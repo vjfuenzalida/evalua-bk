@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from random import randint
+import time
 
 BK_URL = "https://www.evaluabk.com"
 MC_URL = "http://mcexperiencia.cl"
@@ -17,9 +18,8 @@ def setup_chrome_driver(options=None):
         options = webdriver.ChromeOptions()
         chrome_prefs = {}
         options.experimental_options["prefs"] = chrome_prefs
-        chrome_prefs["profile.default_content_settings"] = {"images": 2}
-        chrome_prefs["profile.managed_default_content_settings"] = {
-            "images": 2}
+        # chrome_prefs["profile.default_content_settings"] = {"images": 2}
+        # chrome_prefs["profile.managed_default_content_settings"] = {"images": 2}
     return webdriver.Chrome(options=options)
 
 
@@ -99,6 +99,7 @@ class Bot:
               input_present = self.initial_input_present()
               if (input_present):
                 self.fill_initial_input()
+            time.sleep(0.1)
             button.click()
             if fill_form:
                 self.fill_form_page()
@@ -183,17 +184,17 @@ class McDonaldsBot(Bot):
         # button = self.get_form_button()
 
 
-# bot = BurgerKingBot()
-# bot.answer_survey(fill_form=False)
-# bot.retrieve_code()
+bot = BurgerKingBot()
+bot.answer_survey(fill_form=False)
+bot.retrieve_code()
 
 # bot = PizzaHutBot()
 # bot.answer_survey(fill_form=False)
 # bot.retrieve_code()
 
-bot = DunkinDonutsBot()
-bot.answer_survey(fill_form=False)
-bot.retrieve_code()
+# bot = DunkinDonutsBot()
+# bot.answer_survey(fill_form=False)
+# bot.retrieve_code()
 
 # bot = WendysBot()
 # bot.answer_survey(fill_form=False)
